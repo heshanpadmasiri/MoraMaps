@@ -9,6 +9,9 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,6 +27,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private static final String TAG = "";
     private GoogleMap mMap;
+    private ImageButton return_button;
+    private LatLng university;
+    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        university = new LatLng(6.796877, 79.9017781);
+        return_button = (ImageButton) findViewById(R.id.return_button);
+
+
     }
 
 
@@ -60,11 +71,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         // Move the Camera to Universtiy of Moratuwa on Starting of the application
-        LatLng university = new LatLng(6.796877, 79.9017781);
+
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(university, 17));
 
+        // enable return button
+        return_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(university, 17));
+            }
+        });
 
-        // get my location
+        // enable my location
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
@@ -75,6 +93,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 mMap.setMyLocationEnabled(true);
             }
         }
+
+        mMap.setContentDescription("Map of University of Moratuwa");
+
 
         LatLng loc1 = new LatLng(6.796893, 79.901281);
         mMap.addMarker(new MarkerOptions()
