@@ -14,21 +14,25 @@
 
             <ImageButton
             android:id="@+id/return_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|top"
-            android:src="@drawable/icon_face1"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_width="37dp"
+            android:layout_height="36dp"
+            android:layout_gravity="end|top"
+            android:src="@drawable/ic_home_black_24dp"
+            android:background="@android:color/background_light"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="58dp"
+            android:elevation="8dp"/>
 
             <ImageButton
                 android:id="@+id/search_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_gravity="start|bottom"
-                android:src="@drawable/icon_face1"
+                android:src="@drawable/ic_search_black_24dp"
+                android:background="@android:color/background_light"
                 android:layout_marginLeft="12dp"
-                android:layout_marginBottom="20dp"/>
+                android:layout_marginBottom="32dp"
+                android:elevation="8dp"/>
 
     </fragment>
 </RelativeLayout>

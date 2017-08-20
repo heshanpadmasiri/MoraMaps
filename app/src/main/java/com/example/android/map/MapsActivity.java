@@ -33,7 +33,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ImageButton return_button;
     private ImageButton search_button;
     private LatLng university;
-    private ArrayAdapter<String> adapter;
+    private Marker marker;
     private final int defaultZoom = 17;
 
 
@@ -49,6 +49,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         university = new LatLng(6.796877, 79.9017781);
         return_button = (ImageButton) findViewById(R.id.return_button);
         search_button = (ImageButton) findViewById(R.id.search_button);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (marker!= null){
+            marker.remove();
+        }
+
     }
 
     public void startSearch(){
@@ -82,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Set the map style
         try {
-            boolean success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.map_style_1));
+            boolean success = mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.map_style_2));
             if (!success) {
                 Log.e(TAG, "Style parsing failed.");
             }
@@ -127,10 +136,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void putMarker(LatLng latLng,String title){
-
-        mMap.addMarker(new MarkerOptions()
+        if(marker != null){
+            marker.remove();
+        }
+        marker = mMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .title(title));
+                .title(title)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black_36dp)));
+        marker.showInfoWindow();
         moveCamera(latLng);
     }
 
