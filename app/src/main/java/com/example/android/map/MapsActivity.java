@@ -1,6 +1,7 @@
 package com.example.android.map;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -28,8 +31,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final String TAG = "";
     private GoogleMap mMap;
     private ImageButton return_button;
+    private ImageButton search_button;
     private LatLng university;
     private ArrayAdapter<String> adapter;
+    private final int defaultZoom = 17;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +48,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         university = new LatLng(6.796877, 79.9017781);
         return_button = (ImageButton) findViewById(R.id.return_button);
-
-
+        search_button = (ImageButton) findViewById(R.id.search_button);
     }
 
+    public void startSearch(){
+        Intent intent = new Intent(this,SearchActivity.class);
+        startActivityForResult(intent,1);
+    }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK) {
+                String location = data.getStringExtra("location");
+                if (location.equals("location0")){
+                    putMarker(new LatLng(6.796856, 79.900834),location);
+                }
+            }
+        }
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -72,13 +92,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Move the Camera to Universtiy of Moratuwa on Starting of the application
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(university, 17));
+        moveCamera(university);
 
         // enable return button
         return_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(university, 17));
+                moveCamera(university);
+            }
+        });
+
+        // enable search button
+        search_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startSearch();
             }
         });
 
@@ -96,15 +124,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setContentDescription("Map of University of Moratuwa");
 
+    }
 
-        LatLng loc1 = new LatLng(6.796893, 79.901281);
+    public void putMarker(LatLng latLng,String title){
+
         mMap.addMarker(new MarkerOptions()
-                        .position(loc1)
-                        .title("Random Location")
-                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.icon_museum))
-                        );
+                .position(latLng)
+                .title(title));
+        moveCamera(latLng);
+    }
 
-
-
+    public void moveCamera(LatLng latLng){
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(latLng, defaultZoom);
+        mMap.animateCamera(location);
     }
 }

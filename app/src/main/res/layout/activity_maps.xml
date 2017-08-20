@@ -2,10 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -13,17 +10,25 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_view"
         tools:context="com.example.android.map.MapsActivity">
 
             <ImageButton
             android:id="@+id/return_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:src="@drawable/icon_museum"
-            android:padding="10dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_gravity="start|top"
+            android:src="@drawable/icon_face1"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="5dp"/>
+
+            <ImageButton
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:src="@drawable/icon_face1"
+                android:layout_marginLeft="12dp"
+                android:layout_marginBottom="20dp"/>
 
     </fragment>
 </RelativeLayout>
