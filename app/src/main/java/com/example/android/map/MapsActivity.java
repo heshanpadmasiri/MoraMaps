@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -20,11 +21,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -35,6 +43,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng university;
     private Marker marker;
     private final int defaultZoom = 17;
+    public HashMap<String,Marker> locationMap;
 
 
     @Override
@@ -49,6 +58,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         university = new LatLng(6.796877, 79.9017781);
         return_button = (ImageButton) findViewById(R.id.return_button);
         search_button = (ImageButton) findViewById(R.id.search_button);
+        locationMap = new HashMap<>();
     }
 
     @Override
@@ -57,6 +67,69 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (marker!= null){
             marker.remove();
         }
+    }
+
+    public void makeLocationMap(){
+        ArrayList<String> rawData = new ArrayList<>();
+        rawData.addAll(Arrays.asList(getResources().getStringArray(R.array.positions)));
+
+        String[] temp;
+        double lat;
+        double longitude;
+        String floor;
+        String name;
+        String type;
+
+        for (String data:rawData){
+            temp = data.split("_");
+            lat = Double.parseDouble(temp[0]);
+            longitude = Double.parseDouble(temp[1]);
+            floor = (temp[2].equals("0"))?"Ground floor":"floor : "+temp[2];
+            if (temp[2].equals("-1")){
+                floor = "";
+            }
+            name = temp[3];
+            type = temp[4];
+            Marker marker = makeMarker(lat,longitude,floor,name,type);
+            locationMap.put(name,marker);
+        }
+    }
+
+    public Marker makeMarker(double lat, double lon, String floor, String name, String type){
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black_24dp);
+        if (type.equals("faculty")) {
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_account_balance_black_18dp);
+        }
+        if (type.equals("library")){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_import_contacts_black_18dp);
+        }
+        if (type.equals("woods")){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_spa_black_18dp);
+        }
+        if (type.equals("washroom")){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_wc_black_18dp);
+        }
+        if (type.equals("gates")){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_exit_to_app_black_18dp);
+        }
+        if (type.equals("division")){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_business_black_18dp);
+        }
+        if (type.equals("health")){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_add_box_black_18dp);
+        }
+        if (type.equals("lab")){
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_airplay_black_18dp);
+        }
+
+
+
+        Marker marker = mMap.addMarker(new MarkerOptions()
+                .icon(icon)
+                .position(new LatLng(lat,lon))
+                .title(name)
+                .snippet(floor));
+        return marker;
 
     }
 
@@ -70,9 +143,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (requestCode == 1) {
             if(resultCode == RESULT_OK) {
                 String location = data.getStringExtra("location");
-                if (location.equals("location0")){
-                    putMarker(new LatLng(6.796856, 79.900834),location);
-                }
+                showMarker(locationMap.get(location));
             }
         }
     }
@@ -102,7 +173,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Move the Camera to Universtiy of Moratuwa on Starting of the application
 
         moveCamera(university);
-
+        makeLocationMap();
         // enable return button
         return_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,14 +193,30 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // enable my location
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            mMap.setMyLocationEnabled(true);
+
         } else {
-            Toast.makeText(MapsActivity.this, "You have to accept to enjoy all app's services!", Toast.LENGTH_LONG).show();
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                mMap.setMyLocationEnabled(true);
-            }
+//            Toast.makeText(MapsActivity.this, "You have to accept to enjoy all app's services!", Toast.LENGTH_LONG).show();
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                    == PackageManager.PERMISSION_GRANTED) {
+//                mMap.setMyLocationEnabled(true);
+//            }
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    1);
         }
+        mMap.setMyLocationEnabled(true);
+
+//        }
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            // Check Permissions Now
+//            ActivityCompat.requestPermissions(this,
+//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                    1);
+//        } else {
+//            // permission has been granted, continue as usual
+//            mMap.setMyLocationEnabled(true);
+//        }
 
         mMap.setContentDescription("Map of University of Moratuwa");
 
@@ -145,6 +232,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black_36dp)));
         marker.showInfoWindow();
         moveCamera(latLng);
+    }
+
+    public void showMarker(Marker marker){
+        moveCamera(marker.getPosition());
+        marker.showInfoWindow();
     }
 
     public void moveCamera(LatLng latLng){

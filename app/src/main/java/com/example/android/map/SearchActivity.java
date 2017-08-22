@@ -15,18 +15,20 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
     private ListView listView;
     ArrayAdapter<String> adapter;
+    private ArrayList<String> locationList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_search);
         listView = (ListView) findViewById(R.id.list_view_locations);
-        ArrayList<String> locationList = new ArrayList<>();
-        locationList.addAll(Arrays.asList(getResources().getStringArray(R.array.locations)));
+        locationList = new ArrayList<>();
+        locationList.addAll(getLocationList());
 
         adapter = new ArrayAdapter<>(SearchActivity.this,
                 android.R.layout.simple_list_item_1,
@@ -42,6 +44,17 @@ public class SearchActivity extends AppCompatActivity {
         });
     }
 
+    private List<String> getLocationList(){
+        ArrayList<String> rawData = new ArrayList<>();
+        rawData.addAll(Arrays.asList(getResources().getStringArray(R.array.positions)));
+        List<String> locations = new ArrayList<>();
+        String[] temp;
+        for (String data:rawData){
+            temp = data.split("_");
+            locations.add(temp[3]);
+        } return locations;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -55,6 +68,9 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // get search results
+                if (locationList.contains(query)){
+                    setDestination(query);
+                }
                 return false;
             }
 
