@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -43,7 +44,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private LatLng university;
     private Marker marker;
     private final int defaultZoom = 17;
-    public HashMap<String,Marker> locationMap;
+    public HashMap<String, Marker> locationMap;
+    private final int permission = 1;
 
 
     @Override
@@ -64,12 +66,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onPause() {
         super.onPause();
-        if (marker!= null){
+        if (marker != null) {
             marker.remove();
         }
     }
 
-    public void makeLocationMap(){
+    public void makeLocationMap() {
         ArrayList<String> rawData = new ArrayList<>();
         rawData.addAll(Arrays.asList(getResources().getStringArray(R.array.positions)));
 
@@ -80,73 +82,116 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         String name;
         String type;
 
-        for (String data:rawData){
+        for (String data : rawData) {
             temp = data.split("_");
             lat = Double.parseDouble(temp[0]);
             longitude = Double.parseDouble(temp[1]);
-            floor = (temp[2].equals("0"))?"Ground floor":"floor : "+temp[2];
-            if (temp[2].equals("-1")){
+            floor = (temp[2].equals("0")) ? "Ground floor" : "floor : " + temp[2];
+            if (temp[2].equals("-1")) {
                 floor = "";
             }
             name = temp[3];
             type = temp[4];
-            Marker marker = makeMarker(lat,longitude,floor,name,type);
-            locationMap.put(name,marker);
+            Marker marker = makeMarker(lat, longitude, floor, name, type);
+            locationMap.put(name, marker);
         }
     }
 
-    public Marker makeMarker(double lat, double lon, String floor, String name, String type){
+    public Marker makeMarker(double lat, double lon, String floor, String name, String type) {
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_pin_drop_black_24dp);
         if (type.equals("faculty")) {
             icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_account_balance_black_18dp);
         }
-        if (type.equals("library")){
+        if (type.equals("library")) {
             icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_import_contacts_black_18dp);
         }
-        if (type.equals("woods")){
+        if (type.equals("woods")) {
             icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_spa_black_18dp);
         }
-        if (type.equals("washroom")){
+        if (type.equals("washroom")) {
             icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_wc_black_18dp);
         }
-        if (type.equals("gates")){
+        if (type.equals("gates")) {
             icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_exit_to_app_black_18dp);
         }
-        if (type.equals("division")){
+        if (type.equals("division")) {
             icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_business_black_18dp);
         }
-        if (type.equals("health")){
+        if (type.equals("health")) {
             icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_add_box_black_18dp);
         }
-        if (type.equals("lab")){
+        if (type.equals("lab")) {
             icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_airplay_black_18dp);
         }
-
+        if (type.equals("canteen")) {
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_restaurant_black_18dp);
+        }
+        if (type.equals("sport")) {
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_directions_run_black_18dp);
+        }
+        if (type.equals("lecture hall")) {
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_group_work_black_18dp);
+        }
+        if (type.equals("hostel")) {
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_panorama_fish_eye_black_18dp);
+        }
+        if (type.equals("bank")) {
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_account_balance_wallet_black_18dp);
+        }
+        if (type.equals("departments")) {
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_all_out_black_18dp);
+        }
+        if (type.equals("exam hall")) {
+            icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_assignment_turned_in_black_18dp);
+        }
 
 
         Marker marker = mMap.addMarker(new MarkerOptions()
                 .icon(icon)
-                .position(new LatLng(lat,lon))
+                .position(new LatLng(lat, lon))
                 .title(name)
                 .snippet(floor));
         return marker;
 
     }
 
-    public void startSearch(){
-        Intent intent = new Intent(this,SearchActivity.class);
-        startActivityForResult(intent,1);
+    public void startSearch() {
+        Intent intent = new Intent(this, SearchActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
-            if(resultCode == RESULT_OK) {
+            if (resultCode == RESULT_OK) {
                 String location = data.getStringExtra("location");
                 showMarker(locationMap.get(location));
             }
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case permission:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    mMap.setMyLocationEnabled(true);
+                } else {
+                    mMap.setMyLocationEnabled(false);
+                }
+        }
+    }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -193,30 +238,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // enable my location
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-
+            mMap.setMyLocationEnabled(true);
         } else {
-//            Toast.makeText(MapsActivity.this, "You have to accept to enjoy all app's services!", Toast.LENGTH_LONG).show();
-//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-//                    == PackageManager.PERMISSION_GRANTED) {
-//                mMap.setMyLocationEnabled(true);
-//            }
-            ActivityCompat.requestPermissions(this,
+             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    1);
+                    permission);
         }
-        mMap.setMyLocationEnabled(true);
 
-//        }
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//            // Check Permissions Now
-//            ActivityCompat.requestPermissions(this,
-//                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                    1);
-//        } else {
-//            // permission has been granted, continue as usual
-//            mMap.setMyLocationEnabled(true);
-//        }
+
 
         mMap.setContentDescription("Map of University of Moratuwa");
 
