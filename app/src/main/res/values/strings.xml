@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MoraMap</string>
+    <string name="title_activity_maps">MoraMap</string>
+    <string-array name="locations">
+        <item>location0</item>
+        <item>location1</item>
+    </string-array>
+    <string name="search_title">Select Location</string>
+    <string name="search_hint">search_hint</string>
+</resources>

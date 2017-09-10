@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="positions">
+        <item>6.796093_79.900295_-1_Thawuthisawa_woods</item>
+        <item>6.796389_79.900927_-1_Seetha Gangula_woods</item>
+        <item>6.797223_79.903186_-1_Kaju Kele_woods</item>
+        <item>6.796292_79.900110_0_Goda wash room_washroom</item>
+        <item>6.796292_79.900110_1_Godauda wash room_washroom</item>
+        <item>6.796859_79.900434_0_Sumanadasa washroom_washroom</item>
+        <item>6.795403_79.901127_0_Library washroom_washroom</item>
+        <item>6.796904_79.900725_3_Sumanadasa washroom_washroom </item>
+        <item>6.795915_79.900614_0_division washroom_washroom</item>
+        <item>6.796295_79.902134_1_NA1 washroom_washroom</item>
+        <item>6.796295_79.902134_2_NA2 washroom_washroom</item>
+        <item>6.798784_79.902821_0_civil washroom_washroom</item>
+        <item>6.798784_79.902821_1_civil washroom_washroom</item>
+        <item>6.798784_79.902821_2_civil washroom_washroom</item>
+        <item>6.795816_79.901808_-1_exam washroom_washroom</item>
+        <item>6.797163_79.901979_-1_Faculty of Information technology_faculty</item>
+        <item>6.797026_79.899864_3_Faculty of Architecture_faculty</item>
+        <item>6.795880_79.901562_3_Faculty of Architecture_faculty</item>
+        <item>6.795298_79.901034_-1_Library_library</item>
+        <item>6.794989_79.900752_-1_Front Gate_gates</item>
+        <item>6.798544_79.901289_-1_Back Gate_gates</item>
+        <item>6.795808_79.900630_0_Capital Works And Service Division_division</item>
+        <item>6.795714_79.900611_0_General Administrator Division_division</item>
+        <item>6.795896_79.900628_1_Supplies Division_division</item>
+        <item>6.795805_79.900619_1_Walfare Division_division</item>
+        <item>6.795689_79.900605_1_Internal Audit Division_division</item>
+        <item>6.795573_79.900360_0_Academic and Publication Division_divition</item>
+        <item>6.795598_79.900152_0_Finance Division_division</item>
+        <item>6.795570_79.900366_1_Examination Division_division</item>
+        <item>6.795595_79.900143_1_Establishment Division_division</item>
+        <item>6.796870_79.901646_-1_Medical center_health</item>
+        <item>6.796259_79.900695_-1_Santa Food Court_canteen</item>
+        <item>6.796416_79.900169_0_Goda Canteen_canteen</item>
+        <item>6.796416_79.900169_1_Goda Uda Canteen_canteen</item>
+        <item>6.796838_79.899593_-1_Wala Canteen_canteen</item>
+        <item>6.796728_79.899448_-1_Gula Canteen_canteen</item>
+        <item>6.797060_79.899666_-1_Bus Canteen_canteen</item>
+        <item>6.797456_79.901449_-1_L Canteen_canteen</item>
+        <item>6.797983_79.902733_-1_Posh Canteen_canteen</item>
+        <item>6.798260_79.902926_0_Civil Canteen_canteen</item>
+        <item>6.798001_79.899670_-1_Sports Ground_sport</item>
+        <item>6.797580_79.900651_-1_Gymnasium_sport</item>
+        <item>6.797227_79.900738_-1_Tennis Court_sport</item>
+        <item>6.796306_79.900142_2_Physical Gym_sport</item>
+        <item>6.795966_79.899901_-1_James George Hall_lecture hall</item>
+        <item>6.795970_79.900168_-1_Old Gym_lecture hall</item>
+        <item>6.796342_79.902001_1_NA 1_lecture hall</item>
+        <item>6.796342_79.902001_2_NA 2_lecture hall</item>
+        <item>6.798289_79.902506_0_Civil Auditorium_lecture hall</item>
+        <item>6.797637_79.901441_0_Auditorium_lecture hall</item>
+        <item>6.797637_79.901441_1_Assembly hall_lecture hall</item>
+        <item>6.796535_79.902159_1_Pink Room_lecture hall</item>
+        <item>6.796232_79.900482_-1_BOC UOM_bank</item>
+        <item>6.795122_79.900519_-1_BOC ATM_bank</item>
+        <item>6.795187_79.900355_-1_NSB ATM_bank</item>
+        <item>6.796820_79.900258_1_Department of Computer Science and Engineering_departments</item>
+        <item>6.796820_79.900258_2_Department of Electrical Engineering_departments</item>
+        <item>6.796571_79.901338_-1_Department of Electronic and Telicomunication Engineering_departments</item>
+        <item>6.798380_79.902560_-1_Department of Civil Engineering_departments</item>
+        <item>6.796018_79.899553_-1_Department of Chemical and Process Engineering_departments</item>
+        <item>6.795810_79.898963_-1_Department of Mechanical Engineering_departments</item>
+        <item>6.797795_79.901880_-1_Department of Transport and Logistics Management_departments</item>
+        <item>6.796496_79.901312_-1_Department of Biomedical and Electronic Engineering_departments</item>
+        <item>6.796401_79.899742_-1_Department of Meterial Engineering_departments</item>
+        <item>6.796455_79.899700_2_Department of Earth Resources Engineering_departments</item>
+        <item>6.796820_79.900258_3_Department of Building Economics_departments</item>
+        <item>6.798575_79.901869_-1_Department of Fashion Designing_depaartments</item>
+        <item>6.798170_79.901617_-1_Department of Textile and Clothing_departments</item>
+        <item>6.796008_79.901762_-1_Exam Hall 01_exam hall</item>
+        <item>6.795923_79.901925_-1_Exam Hall 02_exam hall</item>
+        <item>6.796953_79.902547_-1_Nimal Liyanage Girls Hostel_hostel</item>
+        <item>6.797800_79.902429_-1_Clifford Perera Male Hostel_hostel</item>
+    </string-array>
+</resources>
