@@ -4,8 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -13,9 +11,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -32,8 +28,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -228,13 +222,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Move the Camera to Universtiy of Moratuwa on Starting of the application
 
-        moveCamera(university);
+        moveCamera(university,defaultZoom);
         makeLocationMap();
         // enable return button
         return_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveCamera(university);
+                moveCamera(university,defaultZoom);
             }
         });
 
@@ -263,12 +257,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void showMarker(Marker marker){
-        moveCamera(marker.getPosition());
+        moveCamera(marker.getPosition(),19);
         marker.showInfoWindow();
     }
 
-    public void moveCamera(LatLng latLng){
-        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(latLng, defaultZoom);
+    public void moveCamera(LatLng latLng, int zoomSize){
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(latLng, zoomSize);
         mMap.animateCamera(location);
     }
 }
