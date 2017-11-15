@@ -228,13 +228,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Move the Camera to Universtiy of Moratuwa on Starting of the application
 
-        moveCamera(university);
+        moveCamera(university,defaultZoom);
         makeLocationMap();
         // enable return button
         return_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                moveCamera(university);
+                moveCamera(university,defaultZoom);
             }
         });
 
@@ -263,12 +263,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void showMarker(Marker marker){
-        moveCamera(marker.getPosition());
+        moveCamera(marker.getPosition(),19);
         marker.showInfoWindow();
     }
 
-    public void moveCamera(LatLng latLng){
-        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(latLng, defaultZoom);
+    public void moveCamera(LatLng latLng, int zoomSize){
+        CameraUpdate location = CameraUpdateFactory.newLatLngZoom(latLng, zoomSize);
         mMap.animateCamera(location);
     }
 }
